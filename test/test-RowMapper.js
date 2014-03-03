@@ -27,7 +27,7 @@ var sampleRow = {
     "trxpvptpv": "10.00000000"
 };
 
-vows.describe('Row mapper').addBatch({
+vows.describe('Object mapper').addBatch({
     'a new `ObjectMapper`' : {
         topic: function () {
             return new ObjectMapper(rules);
