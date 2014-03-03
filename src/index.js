@@ -103,7 +103,7 @@ module.exports = function (rules) {
 
 // ### Usage
 // ```javascript
-// var ObjectMapper = require('./ObjectMapper');
+// var ObjectMapper = require('bimedia-objectmapper');
 // var mapper = new ObjectMapper(rules);
 // var result = mapper.map({key:'value'});
 // ```
