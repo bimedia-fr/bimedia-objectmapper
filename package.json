@@ -1,0 +1,27 @@
+{
+  "name": "bimedia-objectmapper",
+  "version": "0.0.1",
+  "description": "object mapper for node",
+  "keywords": [
+    "object", "mapper"
+  ],
+  "main": "src/index.js",
+  "homepage": "https://github.com/bimedia-fr/node-object-mapper",
+  "bugs": "https://github.com/bimedia-fr/node-object-mapper/issues",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bimedia-fr/node-object-mapper.git"
+  },
+  "scripts": {
+    "test": "vows --spec test/test*.js",
+    "docs": "docco src/*.js"
+  },
+  "author": "jerome creignou",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "vows": "~0.7.0"
+  },
+  "dependencies": {
+    "through": "~2.3.4"
+  }
+}
