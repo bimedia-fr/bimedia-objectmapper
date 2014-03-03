@@ -13,6 +13,10 @@ There are 3 transformation rules types :
 * *alias* : rename the attribute in the target object (value is unchanged).
 * *complex* : apply tranformation rule provided to change attribute name and value.
 
+### Installation
+
+`npm install --save bimedia-objectmapper`
+
 
 ### Usage
 
