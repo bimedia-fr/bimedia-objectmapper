@@ -22,7 +22,6 @@ var sampleRow = {
     "state": "O",
     "caserie": "2440020831633231",
     "trxfpet": "2010-12-31T14:41:31.515Z",
-    "num_facture": "AV027429 ",
     "procod": "ORASL10",
     "trxpvptpv": "10.00000000"
 };
