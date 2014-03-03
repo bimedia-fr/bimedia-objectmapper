@@ -25,7 +25,10 @@ var result = mapper.map({key:'value'});
 
 #### Streams
 ```javascript
-var ObjectMapper = require('bimedia-objectmapper'), fs = require('fs'), JSONStream = require('JSONStream');
+var ObjectMapper = require('bimedia-objectmapper'), 
+  fs = require('fs'), 
+  JSONStream = require('JSONStream');
+  
 var mapper = new ObjectMapper(rules);
 fs.createReadStream('package.json')
   .pipe(JSONStream.parse())
