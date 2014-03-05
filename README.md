@@ -55,11 +55,11 @@ var result = sources.map(mapper.map);
 ### Mapping rules définitions
 
 #### Identity Rule
-//
+
 No specific rule is needed. Attribute is copied to target object.
 
 #### Simple Rule (alias) 
-//
+
 Declare a constant as attribute value. Example :
 ```javascript
 var rules = {
@@ -70,7 +70,7 @@ This rule renames *trxpvptpv* attribute in source object, to *trxid*
 in target object. 
 
 #### Complexe Rule
-//
+
 Define an object matching the source attribute. 
 Example :
 ```javascript
