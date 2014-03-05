@@ -57,53 +57,69 @@ function RowMapper(r) {
     this.rules = r;
 }
 
-// view this mapper as transform Stream.
-RowMapper.prototype.stream = function () {
-    var mapper = this;
-    return through(function streamMapper(obj) {
-        if (typeof obj !== 'object') {
-            this.emit('error', new Error('data written is not an Object'));
-            return;
-        }
-        this.queue(mapper.map(obj));
-    });
-};
-
-
-// #### `map` apply transformations on object
-
-// For each attributes in source object, lookup a matching rule and apply it.
-
-// Parameters :
-// * `source` is the source object, which we want to map.
-// * `destination` is the result object (optionnel). 
-
-RowMapper.prototype.map = function (source, destination) {
-    var self = this;
-    var dest = destination || {};
-    Object.keys(source).forEach(function (key) {
-        if (self.rules[key]) {
-            var rule = self.rules[key];
-            if (rule.name) { // complex mapping
-                dest[rule.name] = rule.mapper ? rule.mapper(source[key]) : source[key];
-            } else { //simple mapping
-                dest[rule] =  source[key];
-            }
-        } else { //identity mapping
-            dest[key] = source[key];
-        }
-    });
-    return dest;
-};
-
 // export module
-module.exports = function (rules) {
-    return new RowMapper(rules);
+module.exports = function (ruleset) {
+
+    var rules = ruleset;
+    // #### `mapTo` apply transformations on object
+
+    // For each attributes in source object, lookup a matching rule and apply it.
+
+    // Parameters :
+    // * `source` is the source object, which we want to map.
+    // * `destination` is the result object (optionnal). 
+
+    var _mapTo = function (source, destination) {
+        var dest = destination || {};
+        Object.keys(source).forEach(function (key) {
+            if (rules[key]) {
+                var rule = rules[key];
+                if (rule.name) { // complex mapping
+                    dest[rule.name] = rule.mapper ? rule.mapper(source[key]) : source[key];
+                } else { //simple mapping
+                    dest[rule] =  source[key];
+                }
+            } else { //identity mapping
+                dest[key] = source[key];
+            }
+        });
+        return dest;
+    };
+
+    // #### `map` apply transformations on object
+
+    // For each attributes in source object, lookup a matching rule and apply it.
+    // This methods enables array values mapping with `Array.map`.
+
+    // Parameters :
+    // * `source` is the source object, which we want to map.
+
+    var _map = function (source) {
+        return _mapTo(source, {});
+    };
+        
+    // view this mapper as transform Stream.
+    var _stream = function () {
+        return through(function streamMapper(obj) {
+            if (typeof obj !== 'object') {
+                this.emit('error', new Error('data written is not an Object'));
+                return;
+            }
+            this.queue(_map(obj));
+        });
+    };
+
+    return {
+        rules : rules,
+        stream : _stream,
+        map: _map,
+        mapTo : _mapTo
+    };
 };
 
 // ### Usage
 // ```javascript
-// var ObjectMapper = require('bimedia-objectmapper');
-// var mapper = new ObjectMapper(rules);
+// var objectMapper = require('bimedia-objectmapper');
+// var mapper = objectMapper(rules);
 // var result = mapper.map({key:'value'});
 // ```

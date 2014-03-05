@@ -1,4 +1,4 @@
-node-objectmapper
+bimedia-objectmapper
 ==================
 
 object mapper for node
@@ -23,21 +23,33 @@ There are 3 transformation rules types :
 #### Simple usecase
 ```javascript
 var ObjectMapper = require('bimedia-objectmapper');
-var mapper = new ObjectMapper(rules);
+var mapper = objectMapper({'key':'clé'});
 var result = mapper.map({key:'value'});
+// {'clé': 'value'}
 ```
 
 #### Streams
 ```javascript
-var ObjectMapper = require('bimedia-objectmapper'), 
+var objectMapper = require('bimedia-objectmapper'), 
   fs = require('fs'), 
   JSONStream = require('JSONStream');
   
-var mapper = new ObjectMapper(rules);
+var mapper = objectMapper(rules);
 fs.createReadStream('package.json')
   .pipe(JSONStream.parse())
   .pipe(mapper.stream())
   .pipe(process.stdout);
+```
+
+#### Arrays
+```javascript
+var objectMapper = require('bimedia-objectmapper');
+var mapper = objectMapper({'key':'clé'});
+var sources = [{key:'value1'}, {key:'value2'}, {key:'value3'}];
+var result = sources.map(mapper.map);
+//[ { 'clé': 'value1' },
+//  { 'clé': 'value2' },
+//  { 'clé': 'value3' } ]
 ```
 
 ### Mapping rules définitions

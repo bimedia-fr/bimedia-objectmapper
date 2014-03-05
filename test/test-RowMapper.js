@@ -27,7 +27,7 @@ var sampleRow = {
 };
 
 vows.describe('Object mapper').addBatch({
-    'a new `ObjectMapper`' : {
+    'an `objectMapper`' : {
         topic: function () {
             return new ObjectMapper(rules);
         },
@@ -49,6 +49,16 @@ vows.describe('Object mapper').addBatch({
             'returns an mapped object with *complex* attribute mapping ' : function (res) {
                 assert.ok(res.currentState);
                 assert.equal(res.currentState, 'REFUNDED');
+            }
+        },
+        'when mapping arrays with `Array.map`': {
+            topic: function (mapper) {
+                return [{state : 'value2'}, {state : 'value2'}, {state : 'O'}].map(mapper.map);
+            },
+            'returns an mapped array ' : function (tab) {
+                assert.equal(tab[0].currentState, 'PENDING');
+                assert.equal(tab[1].currentState, 'PENDING');
+                assert.equal(tab[2].currentState, 'REFUNDED');
             }
         }
     }
