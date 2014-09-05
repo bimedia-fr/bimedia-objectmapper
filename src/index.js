@@ -29,7 +29,7 @@ var through = require('through');
 // This rule renames *trxpvptpv* attribute in source object, to *trxid*
 // in target object. 
 
-// #### Complexe Rule
+// #### Complex Rule
 //
 // Define an object matching the source attribute. 
 // Example :
