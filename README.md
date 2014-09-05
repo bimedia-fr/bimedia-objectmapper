@@ -52,7 +52,7 @@ var result = sources.map(mapper.map);
 //  { 'clé': 'value3' } ]
 ```
 
-### Mapping rules définitions
+### Mapping rules definitions
 
 #### Identity Rule
 
@@ -86,6 +86,6 @@ var rules = {
     }
 };
 ```
-This example transforme the *state* attribute in source object to an *currentState*
+This example transforms the *state* attribute in source object to an *currentState*
 attribute in target object. the value is changed using the `mapper` function defined by the rule.
 
