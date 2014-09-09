@@ -118,7 +118,7 @@ module.exports = function (ruleset, options) {
     };
 
     return {
-        rules : {},
+        rules : commonsRules,
         stream : _stream,
         map: _map,
         mapTo : _mapTo
