@@ -18,6 +18,19 @@ var rules = {
     'trxpvptpv' :  'value'
 };
 
+var rules2 = {
+    'state' : function (name, val) {
+        var value;
+        if (val == 'O') {
+            value = 'REFUNDED';
+        } else {
+            value = val == 'N' ? 'REFUSED' : 'PENDING';
+        }
+        return {key: 'currentState', value : value};
+    },
+    'trxpvptpv' :  'value'
+};
+
 var sampleRow = {
     "state": "O",
     "caserie": "2440020831633231",
@@ -62,4 +75,40 @@ vows.describe('Object mapper').addBatch({
             }
         }
     }
-}).export(module);
+}).addBatch({
+    'an `objectMapper`' : {
+        topic: function () {
+            return new ObjectMapper(rules2);
+        },
+        'return a ObjectMapper': function (mapper) {
+            assert.ok(mapper);
+        },
+        'when mapping values': {
+            topic: function (mapper) {
+                return mapper.map(sampleRow);
+            },
+            'returns an mapped object with *simple* attribute mapping ' : function (res) {
+                assert.ok(res.value);
+                assert.equal(res.value, '10.00000000');
+            },
+            'returns an mapped object with *identity* attribute mapping ' : function (res) {
+                assert.ok(res.procod);
+                assert.equal(res.procod, 'ORASL10');
+            },
+            'returns an mapped object with *complex* attribute mapping ' : function (res) {
+                assert.ok(res.currentState);
+                assert.equal(res.currentState, 'REFUNDED');
+            }
+        },
+        'when mapping arrays with `Array.map`': {
+            topic: function (mapper) {
+                return [{state : 'value2'}, {state : 'value2'}, {state : 'O'}].map(mapper.map);
+            },
+            'returns an mapped array ' : function (tab) {
+                assert.equal(tab[0].currentState, 'PENDING');
+                assert.equal(tab[1].currentState, 'PENDING');
+                assert.equal(tab[2].currentState, 'REFUNDED');
+            }
+        }
+    }
+}).exportTo(module);

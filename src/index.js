@@ -46,11 +46,15 @@ var through = require('through');
 //     }
 // };
 // ```
-// This example transforme the *state* attribute in source object to an *currentState*
+// This example transforms the *state* attribute in source object to an *currentState*
 // attribute in target object. the value is changed using the `mapper` function defined by the rule.
 
 // export module
 module.exports = function (ruleset) {
+
+    function isFunc(obj) {
+        return typeof obj == 'function' || false;
+    }
 
     var rules = ruleset;
     // #### `mapTo` apply transformations on object
@@ -68,6 +72,9 @@ module.exports = function (ruleset) {
                 var rule = rules[key];
                 if (rule.name) { // complex mapping
                     dest[rule.name] = rule.mapper ? rule.mapper(source[key]) : source[key];
+                } else if (isFunc(rule)) {
+                    var res = rule(key, source[key]);
+                    dest[res.key] = res.value;
                 } else { //simple mapping
                     dest[rule] =  source[key];
                 }
@@ -102,7 +109,7 @@ module.exports = function (ruleset) {
     };
 
     return {
-        rules : rules,
+        rules : {},
         stream : _stream,
         map: _map,
         mapTo : _mapTo
