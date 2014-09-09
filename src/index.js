@@ -2,6 +2,7 @@
 "use strict";
 
 var through = require('through');
+var commonsRules = require('./rules');
 
 // Object Mapper Module
 // -----------------
@@ -50,10 +51,17 @@ var through = require('through');
 // attribute in target object. the value is changed using the `mapper` function defined by the rule.
 
 // export module
-module.exports = function (ruleset) {
+module.exports = function (ruleset, options) {
+
+    var opts = options || { defaults : true};
 
     function isFunc(obj) {
         return typeof obj == 'function' || false;
+    }
+
+    function mapFunc(func, key, source, dest) {
+        var res = func(key, source[key]);
+        dest[res.key] = res.value;
     }
 
     var rules = ruleset;
@@ -73,13 +81,14 @@ module.exports = function (ruleset) {
                 if (rule.name) { // complex mapping
                     dest[rule.name] = rule.mapper ? rule.mapper(source[key]) : source[key];
                 } else if (isFunc(rule)) {
-                    var res = rule(key, source[key]);
-                    dest[res.key] = res.value;
+                    mapFunc(rule, key, source, dest);
                 } else { //simple mapping
                     dest[rule] =  source[key];
                 }
-            } else { //identity mapping
-                dest[key] = source[key];
+            } else {
+                if (opts.defaults) {
+                    mapFunc(commonsRules.identity, key, source, dest);
+                }
             }
         });
         return dest;
