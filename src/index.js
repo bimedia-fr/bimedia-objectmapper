@@ -3,6 +3,7 @@
 
 var through = require('through');
 var commonsRules = require('./rules');
+var ObjectMapper = require('./ObjectMapper');
 
 // Object Mapper Module
 // -----------------
@@ -51,79 +52,12 @@ var commonsRules = require('./rules');
 // attribute in target object. the value is changed using the `mapper` function defined by the rule.
 
 // export module
-module.exports = function (ruleset, options) {
+module.exports = ObjectMapper;
 
-    var opts = options || { defaults : true};
+Object.keys(commonsRules).forEach(function (k) {
+    module.exports[k] = commonsRules[k];
+});
 
-    function isFunc(obj) {
-        return typeof obj == 'function' || false;
-    }
-
-    function mapFunc(func, key, source, dest) {
-        var res = func(key, source[key]);
-        dest[res.key] = res.value;
-    }
-
-    var rules = ruleset;
-    // #### `mapTo` apply transformations on object
-
-    // For each attributes in source object, lookup a matching rule and apply it.
-
-    // Parameters :
-    // * `source` is the source object, which we want to map.
-    // * `destination` is the result object (optionnal). 
-
-    var _mapTo = function (source, destination) {
-        var dest = destination || {};
-        Object.keys(source).forEach(function (key) {
-            if (rules[key]) {
-                var rule = rules[key];
-                if (rule.name) { // complex mapping
-                    dest[rule.name] = rule.mapper ? rule.mapper(source[key]) : source[key];
-                } else if (isFunc(rule)) {
-                    mapFunc(rule, key, source, dest);
-                } else { //simple mapping
-                    dest[rule] =  source[key];
-                }
-            } else {
-                if (opts.defaults) {
-                    mapFunc(commonsRules.identity, key, source, dest);
-                }
-            }
-        });
-        return dest;
-    };
-
-    // #### `map` apply transformations on object
-
-    // For each attributes in source object, lookup a matching rule and apply it.
-    // This methods enables array values mapping with `Array.map`.
-
-    // Parameters :
-    // * `source` is the source object, which we want to map.
-
-    var _map = function (source) {
-        return _mapTo(source, {});
-    };
-        
-    // view this mapper as transform Stream.
-    var _stream = function () {
-        return through(function streamMapper(obj) {
-            if (typeof obj !== 'object') {
-                this.emit('error', new Error('data written is not an Object'));
-                return;
-            }
-            this.queue(_map(obj));
-        });
-    };
-
-    return {
-        rules : commonsRules,
-        stream : _stream,
-        map: _map,
-        mapTo : _mapTo
-    };
-};
 
 // ### Usage
 // ```javascript
