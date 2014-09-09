@@ -69,7 +69,7 @@ var rules = {
 This rule renames *trxpvptpv* attribute in source object, to *trxid*
 in target object. 
 
-#### Complexe Rule
+#### Complex Rule
 
 Define an object matching the source attribute. 
 Example :
@@ -86,6 +86,20 @@ var rules = {
     }
 };
 ```
-This example transforms the *state* attribute in source object to an *currentState*
+Or directly with a function :
+```javascript
+var rules = {
+     'state' : function (k, v) {
+            var value;
+            if (val == 'Y') {
+                value =  'REFUNDED';
+            }
+            value = val == 'N' ? 'REFUSED' : 'PENDING';
+            return {key: 'currentState', value: value};
+        }
+    }
+};
+```
+This 2 examples transforms the *state* attribute in source object to an *currentState*
 attribute in target object. the value is changed using the `mapper` function defined by the rule.
 
