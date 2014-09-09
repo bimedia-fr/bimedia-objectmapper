@@ -85,7 +85,7 @@ module.exports = function (ruleset, options) {
                 }
             } else {
                 if (opts.defaults) {
-                    mapFunc(commonsRules.identity, key, source, dest);
+                    mapFunc(isFunc(opts.defaults) ? opts.defaults : commonsRules.identity, key, source, dest);
                 }
             }
         });

@@ -101,5 +101,17 @@ var rules = {
 };
 ```
 This 2 examples transforms the *state* attribute in source object to an *currentState*
-attribute in target object. the value is changed using the `mapper` function defined by the rule.
+attribute in target object.
 
+### Options
+Mapping can be customize with the second argmuent of `ObjectMapper` :
+For instance to disable identity mapping by default :
+
+```js
+var mapper = ObjectMapper(rules, {defaults: false});
+```
+
+Or to specify a default mapping function :
+```js
+var mapper = ObjectMapper(rules, {defaults: ObjectMapper.keys.camelCase});
+```
