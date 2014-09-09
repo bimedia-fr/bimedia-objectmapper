@@ -8,7 +8,22 @@
 
 // export module
 module.exports = {
-    'identity' : function (oldkey, oldvalue) {
-        return {key: oldkey, value : oldvalue};
+    'keys': {
+        'camelCase': function (key, val) {
+            var re = /(?:[\-|_| ])(\w)/g;
+            var camelized = key.replace(re, function (_, c) {
+                return c ? c.toUpperCase() : '';
+            });
+            return {
+                key: camelized,
+                value: val
+            };
+        }
+    },
+    'identity': function (oldkey, oldvalue) {
+        return {
+            key: oldkey,
+            value: oldvalue
+        };
     }
 };
