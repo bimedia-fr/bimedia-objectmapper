@@ -115,3 +115,5 @@ Or to specify a default mapping function :
 ```js
 var mapper = ObjectMapper(rules, {defaults: ObjectMapper.keys.camelCase});
 ```
+#### supported options
+* `defaults` : (function | boolean) define a default mapping function. By defaut `ObjectMapper.identity`. 
