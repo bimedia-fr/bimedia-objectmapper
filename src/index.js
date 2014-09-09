@@ -49,14 +49,6 @@ var through = require('through');
 // This example transforme the *state* attribute in source object to an *currentState*
 // attribute in target object. the value is changed using the `mapper` function defined by the rule.
 
-// ### API
-// #### Contructor.
-
-// Create a new Mapper. `r` is a mapping ruleset.
-function RowMapper(r) {
-    this.rules = r;
-}
-
 // export module
 module.exports = function (ruleset) {
 
