@@ -1,4 +1,4 @@
-bimedia-objectmapper [![build status](https://secure.travis-ci.org/bimedia-fr/node-object-mapper.png)](http://travis-ci.org/jcreigno/bimedia-fr/node-object-mapper)
+bimedia-objectmapper [![build status](https://secure.travis-ci.org/bimedia-fr/node-object-mapper.png)](http://travis-ci.org/bimedia-fr/node-object-mapper)
 ==================
 
 object mapper for node
