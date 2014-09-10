@@ -1,4 +1,4 @@
-bimedia-objectmapper
+bimedia-objectmapper [![build status](https://secure.travis-ci.org/bimedia-fr/architect-pg-pool)](http://travis-ci.org/jcreigno/bimedia-fr/architect-pg-pool)
 ==================
 
 object mapper for node
