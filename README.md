@@ -24,7 +24,7 @@ There are 3 transformation rules types :
 ```javascript
 var ObjectMapper = require('bimedia-objectmapper');
 var mapper = objectMapper({'key':'clé'});
-var result = mapper.map({key:'value'});
+var result = mapper({key:'value'});
 // {'clé': 'value'}
 ```
 
@@ -46,7 +46,7 @@ fs.createReadStream('package.json')
 var objectMapper = require('bimedia-objectmapper');
 var mapper = objectMapper({'key':'clé'});
 var sources = [{key:'value1'}, {key:'value2'}, {key:'value3'}];
-var result = sources.map(mapper.map);
+var result = sources.map(mapper);
 //[ { 'clé': 'value1' },
 //  { 'clé': 'value2' },
 //  { 'clé': 'value3' } ]

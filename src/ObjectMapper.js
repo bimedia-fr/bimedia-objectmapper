@@ -62,7 +62,7 @@ module.exports = function (ruleset, options) {
         dest[res.key] = res.value;
     }
 
-    var rules = ruleset;
+    var rules = ruleset || {};
     // #### `mapTo` apply transformations on object
 
     // For each attributes in source object, lookup a matching rule and apply it.
@@ -115,9 +115,8 @@ module.exports = function (ruleset, options) {
         });
     };
 
-    return {
-        stream : _stream,
-        map: _map,
-        mapTo : _mapTo
-    };
+    _map.stream = _stream;
+    _map.mapTo = _mapTo;
+    _map.map = _map;
+    return _map;
 };

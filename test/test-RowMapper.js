@@ -100,9 +100,19 @@ vows.describe('Object mapper').addBatch({
                 assert.equal(res.currentState, 'REFUNDED');
             }
         },
-        'when mapping arrays with `Array.map`': {
+        'when mapping arrays with `Array.map` with *ObjectMapper.map*': {
             topic: function (mapper) {
                 return [{state : 'value2'}, {state : 'value2'}, {state : 'O'}].map(mapper.map);
+            },
+            'returns an mapped array ' : function (tab) {
+                assert.equal(tab[0].currentState, 'PENDING');
+                assert.equal(tab[1].currentState, 'PENDING');
+                assert.equal(tab[2].currentState, 'REFUNDED');
+            }
+        },
+        'when mapping arrays with `Array.map` whith *ObjectMapper*': {
+            topic: function (mapper) {
+                return [{state : 'value2'}, {state : 'value2'}, {state : 'O'}].map(mapper);
             },
             'returns an mapped array ' : function (tab) {
                 assert.equal(tab[0].currentState, 'PENDING');
