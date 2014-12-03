@@ -72,6 +72,9 @@ module.exports = function (ruleset, options) {
     // * `destination` is the result object (optionnal).
 
     var _mapTo = function (source, destination) {
+        if (!source) {
+            return source;
+        }
         var dest = destination || {};
         Object.keys(source).forEach(function (key) {
             if (rules[key]) {

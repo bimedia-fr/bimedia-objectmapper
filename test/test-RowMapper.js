@@ -100,6 +100,22 @@ vows.describe('Object mapper').addBatch({
                 assert.equal(res.currentState, 'REFUNDED');
             }
         },
+        'when mapping undefined object': {
+            topic: function (mapper) {
+                return {result : mapper.map(undefined)};
+            },
+            'returns *undefined* ' : function (res) {
+                assert.isUndefined(res.result);
+            }
+        },
+        'when mapping null object': {
+            topic: function (mapper) {
+                return {result : mapper.map(null)};
+            },
+            'returns *null* ' : function (res) {
+                assert.isNull(res.result);
+            }
+        },
         'when mapping arrays with `Array.map` with *ObjectMapper.map*': {
             topic: function (mapper) {
                 return [{state : 'value2'}, {state : 'value2'}, {state : 'O'}].map(mapper.map);
@@ -118,6 +134,18 @@ vows.describe('Object mapper').addBatch({
                 assert.equal(tab[0].currentState, 'PENDING');
                 assert.equal(tab[1].currentState, 'PENDING');
                 assert.equal(tab[2].currentState, 'REFUNDED');
+            }
+        },
+        'when mapping arrays with `Array.map` whith *ObjectMapper* and then mapping': {
+            topic: function (mapper) {
+                return [{state : 'value2'}, {state : 'value2'}, {state : 'O'}].map(mapper).map(function (item) {
+                    return item.currentState;
+                });
+            },
+            'returns an mapped array ' : function (tab) {
+                assert.equal(tab[0], 'PENDING');
+                assert.equal(tab[1], 'PENDING');
+                assert.equal(tab[2], 'REFUNDED');
             }
         }
     }
