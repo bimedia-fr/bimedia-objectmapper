@@ -18,6 +18,20 @@ module.exports = {
                 key: camelized,
                 value: val
             };
+        },
+        'lowerSnakeCase': function (key, val) {
+            let snakized = key.replace(/([A-Z])/g, ($1) => '_' + $1.toLowerCase());
+            return {
+                key: snakized,
+                value: val
+            };
+        },
+        'snakeCase': function (key, val) {
+            let snakized = key.replace(/([A-Z])/g, ($1) => '-' + $1.toLowerCase());
+            return {
+                key: snakized,
+                value: val
+            };
         }
     },
     'identity': function (oldkey, oldvalue) {

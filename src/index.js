@@ -1,7 +1,6 @@
 /*jslint node : true, nomen: true, plusplus: true, vars: true, eqeq: true,*/
 "use strict";
 
-var through = require('through');
 var commonsRules = require('./rules');
 var ObjectMapper = require('./ObjectMapper');
 

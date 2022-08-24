@@ -3,7 +3,8 @@
   "version": "0.2.3",
   "description": "object mapper for node",
   "keywords": [
-    "object", "mapper"
+    "object",
+    "mapper"
   ],
   "main": "src/index.js",
   "homepage": "https://github.com/bimedia-fr/node-object-mapper",
@@ -13,15 +14,14 @@
     "url": "git@github.com:bimedia-fr/node-object-mapper.git"
   },
   "scripts": {
-    "test": "vows --spec test/test*.js",
+    "test": "find test -type f -iname '*.test.js' | xargs nyc --reporter=lcov --reporter=text mocha",
     "docs": "docco src/*.js"
   },
   "author": "jerome creignou",
   "license": "BSD-2-Clause",
   "devDependencies": {
-    "vows": "~0.7.0"
-  },
-  "dependencies": {
-    "through": "~2.3.4"
+    "eslint": "^8.22.0",
+    "mocha": "^10.0.0",
+    "nyc": "^15.1.0"
   }
 }

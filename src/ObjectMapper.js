@@ -1,7 +1,7 @@
 /*jslint node : true, nomen: true, plusplus: true, vars: true, eqeq: true,*/
 "use strict";
 
-var through = require('through');
+var Transform = require('stream').Transform;
 var commonsRules = require('./rules');
 
 // Object Mapper Module
@@ -79,10 +79,10 @@ module.exports = function (ruleset, options) {
         Object.keys(source).forEach(function (key) {
             if (rules[key]) {
                 var rule = rules[key];
-                if (rule.name) { // complex mapping
-                    dest[rule.name] = rule.mapper ? rule.mapper(source[key]) : source[key];
-                } else if (isFunc(rule)) {
+                if (isFunc(rule)) {
                     mapFunc(rule, key, source, dest);
+                } else if (rule.name) { // complex mapping
+                    dest[rule.name] = rule.mapper ? rule.mapper(source[key]) : source[key];
                 } else { //simple mapping
                     dest[rule] =  source[key];
                 }
@@ -108,15 +108,12 @@ module.exports = function (ruleset, options) {
     };
 
     // view this mapper as transform Stream.
-    var _stream = function () {
-        return through(function streamMapper(obj) {
-            if (typeof obj !== 'object') {
-                this.emit('error', new Error('data written is not an Object'));
-                return;
-            }
-            this.queue(_map(obj));
-        });
-    };
+    var _stream = () => new Transform({
+        objectMode: true,
+        transform(obj, encoding, next) {
+            next(null, _map(obj));
+        }
+    });
 
     _map.stream = _stream;
     _map.mapTo = _mapTo;
